@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Finder</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f3faf5; /* light green background */
+        color: #2f3e34;
+        margin: 0;
+        padding-top: 80px;
+
+        /* center everything vertically */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        font-weight: 700;
+        font-size: 2.2rem;
+        text-align: center;
+
+        /* Gradient text */
+        background: linear-gradient(
+          90deg,
+          #4f9d7f,
+          #6fbf9c,
+          #9ad8b8
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+
+      #genre_input {
+        width: 140px;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #cde5d6;
+        border-radius: 6px;
+        outline: none;
+        margin-bottom: 12px;
+      }
+
+      #genre_input:focus {
+        border-color: #6fbf9c;
+        box-shadow: 0 0 0 2px rgba(111, 191, 156, 0.2);
+      }
+
+      button {
+        width: 100px;
+        padding: 10px 18px;
+        font-size: 16px;
+        background-color: #6fbf9c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-bottom: 30px;
+      }
+
+      button:hover {
+        background-color: #5aaa88;
+      }
+
+      #result_list {
+        list-style: none;
+        padding: 0;
+        width: 300px;
+      }
+
+      #result_list li {
+        padding: 12px;
+        margin-bottom: 8px;
+        background: #f0f7f3;
+        border-left: 4px solid #6fbf9c;
+        border-radius: 4px;
+      }
+    </style>
+
+    <script>
+        function search() {
+         // 1. search button click should grab button text
+         var genre = $("#genre_input").val();
+           console.log("Genre:" + genre)
+
+         // 2. call the backend server URL and get return result
+         // ajax
+         $.ajax({
+           url: `/search/${encodeURIComponent(genre)}`,
+           method: "GET",
+           dataType: "json",
+           success: function (data) {
+               //3. render the result under the list
+               $("#result_list").empty();
+               for(var i = 0; i < data.length; i++) {
+                    $("#result_list").append("<li>" + data[i].Title + "</li>");
+               }
+           },
+           error: function (xhr, status, error) {
+             console.error("Error:", error);
+           }
+        });
+       }
+
+    </script>
+</head>
+<body>
+    <h1>Welcome to Book Finder</h1>
+    <input id= "genre_input" type="text"></input>
+    <button onclick="search()">Search</button>
+    <ul id="result_list"></ul>
+</body>
+</html>
