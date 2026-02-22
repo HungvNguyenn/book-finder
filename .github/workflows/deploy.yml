@@ -28,6 +28,7 @@ jobs:
           script: |
             set -e
             cd ~/book-finder
-            git pull --rebase
+            git fetch origin
+            git reset --hard origin/main
             ./run.sh
             tail -n 50 log.txt
