@@ -1,17 +1,10 @@
-name: Deploy (EC2 nohup)
+name: Deploy to EC2
 
 on:
   workflow_run:
-    workflows: [ "CI" ]
+    workflows: ["CI"]
     types:
       - completed
-
-permissions:
-  contents: read
-
-concurrency:
-  group: deploy-main
-  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -26,9 +19,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            set -e
             cd ~/book-finder
-            git fetch origin
-            git reset --hard origin/main
-            ./run.sh
-            tail -n 50 log.txt
+            git pull --rebase
+            source venv/bin/activate
+            pkill -f book-finder-app.py || true
+            nohup python3.12 book-finder-app.py > log.txt 2>&1 &
