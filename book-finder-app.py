@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import certifi
 
 # Replace with your Atlas connection string
-client = MongoClient("mongodb+srv://hungnguyen210703_db_user:GxByorfpV3juqBwx@book-db.ik3qbep.mongodb.net/?appName=book-db", tlsCAFile=certifi.where())
+client = MongoClient("mongodb+srv://hungnguyen210703_db_user:Kwlqef6bljiCHkS5@book-db.ik3qbep.mongodb.net/?appName=book-db", tlsCAFile=certifi.where())
 
 # Pick a database and collection
 db = client["book-finder"]

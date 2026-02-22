@@ -4,3 +4,4 @@ app.pid
 .venv/
 __pycache__/
 *.pyc
+mongo-test.py
