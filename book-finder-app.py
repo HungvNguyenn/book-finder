@@ -11,24 +11,6 @@ collection = db["books"]
 
 app = Flask(__name__)
 
-# data = [
-#     {
-#         "Title" : "The Hobbit",
-#         "Genre" : "Fantasy",
-#     },
-#     {
-#         "Title": "The Hunger Game",
-#         "Genre": "Dystopia",
-#     },
-#     {
-#         "Title": "Harry Potter",
-#         "Genre": "Fantasy",
-#     },
-#     {
-#         "Title": "Of Mice and Men",
-#         "Genre": "Tragedy",
-#     },
-# ]
 
 @app.route("/")
 def start_index():
