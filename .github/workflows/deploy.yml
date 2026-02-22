@@ -12,15 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
+      - name: Deploy Flask app via SSH
+        run: |
+          mkdir -p ~/.ssh
+
+          # Write the SSH private key from GitHub Secrets
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # SSH into EC2 and deploy
+          ssh -o StrictHostKeyChecking=no \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             cd ~/book-finder
             git pull --rebase
             source venv/bin/activate
             pkill -f book-finder-app.py || true
             nohup python3.12 book-finder-app.py > log.txt 2>&1 &
+          EOF
